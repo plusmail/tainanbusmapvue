@@ -19,7 +19,7 @@ import BusRouteMaster from './map/BusRouteMaster.vue'
 import axios from 'axios'
 import * as xmlTool from './../xmlUtilities.js'
 
-const downloadAPIUrl = 'http://api.openstreetmap.org/api/0.6/relation/'
+const downloadAPIUrl = 'https://api.openstreetmap.org/api/0.6/relation/'
 const queryFull = '/full'
 
 export default {
@@ -33,7 +33,7 @@ export default {
     return {
       zoom:13,
       center: L.latLng(22.9981,120.2151),
-      url:'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+      url:'https://{s}.tile.osm.org/{z}/{x}/{y}.png',
       attribution:'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       hasLoaded : false,
       routeGraphData:{}
