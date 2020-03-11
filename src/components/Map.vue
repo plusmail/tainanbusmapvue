@@ -72,7 +72,7 @@ export default {
     handleRouteMaster : function(osmID){
       return new Promise((resolve , reject) => {
         let _resolve = resolve;
-        axios.get(downloadAPIUrl + osmID , {responseType: 'document'})
+        axios.get(downloadAPIUrl + osmID , {responseType: 'document' , headers: {'Accept': ' text/plain, */*'}})
         .then(function(response){
           _resolve(xmlTool.getSubRelation(response.data));
         })
@@ -88,7 +88,7 @@ export default {
         let results = [];
 
         for (let i = 0; i < osmID.length; i++) {
-          get_promises.push(axios.get(downloadAPIUrl + osmID[i] + queryFull , {responseType: 'document'}));
+          get_promises.push(axios.get(downloadAPIUrl + osmID[i] + queryFull , {responseType: 'document' , headers: {'Accept': ' text/plain, */*'}}));
         }
         
         Promise.all(get_promises).then(function(response){
