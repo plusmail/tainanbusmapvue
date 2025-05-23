@@ -1,68 +1,88 @@
 <template>
   <div id="app">
-    <SideBar v-if="hasLoaded" id="sidebar" @change-route="routeChange" @change-dir="directionChange" :routedata="savedData"></SideBar>
-    <Map id="map" v-if="hasLoaded" :forward="showForward" :routeData="currentRouteData"></Map>
+    <SideBar
+        v-if="hasLoaded"
+        id="sidebar"
+        @change-route="routeChange"
+        @change-dir="directionChange"
+        :routedata="savedData"
+    />
+    <LeafletMap
+        id="map"
+        v-if="hasLoaded"
+        :forward="showForward"
+        :routeData="currentRouteData"
+    />
 
-    <b-modal id="loading" title="Loading...." 
-    :no-close-on-backdrop="noclick"
-    :ok-only="noclick"
-    :ok-disabled="noclick"
-    :centered="noclick">
-    </b-modal>
+    <b-modal
+        v-model="isModalVisible"
+        title="Loading..."
+        :no-close-on-backdrop="true"
+        :ok-only="true"
+        :ok-disabled="true"
+        :centered="true"
+    />
+
   </div>
 </template>
+<script setup>
+import {ref, onMounted} from 'vue';
+import axios from 'axios';
 
-<script>
-import SideBar from './components/SideBar.vue'
-import Map from './components/Map.vue'
-import axios from 'axios'
+import SideBar from './components/SideBar.vue';
+import LeafletMap from './components/LeafletMap.vue';
+import {BModal} from "bootstrap-vue-3";
 
-let routeChange = function(value){
-  this.currentRouteData = value;
+const hasLoaded = ref(false);
+const savedData = ref([]);
+const isModalVisible = ref(false);
+
+const showForward = ref(true);
+const currentRouteData = ref({
+  categoryIndex: 1,
+  routeid: 10450,
+  osmid: 4016613,
+  routedesc: "火車站(북)─火車站(북)",
+  mainColor: "#9900CC",
+  extendColor: "#D699EB"
+});
+
+const routeChange = (value) => {
+  isModalVisible.value = true;
+  currentRouteData.value = value;
+  // 여기에 Map.vue 내 watch()가 반응함
+  setTimeout(() => {
+    isModalVisible.value = false;
+  }, 1500); // 또는 이벤트 받아서 hide 처리 가능
 };
 
-let directionChange = function(value){
-  this.showForward = value;
+const directionChange = (value) => {
+  showForward.value = value;
 };
 
-export default {
-  name: 'app',
-  data : function(){
-    return {
-      noclick : true,
-      hasLoaded : false,
-      savedData : [],
-      showForward:true,
-      currentRouteData:{ categoryIndex:1 ,routeid:10450 , osmid:4016613 ,routedesc:"火車站(北)─火車站(北)" , mainColor:"#9900CC" , extendColor:"#D699EB"}
-    }
-  },
-  components: {
-    SideBar,
-    Map
-  },
-  methods:{
-    routeChange,
-    directionChange
-  },
-  created: function(){
-    let _this = this;
-    axios.get('./AllBusRoutes.json')
-    .then(function(response){
-      _this.savedData = response.data;
-      _this.hasLoaded = true;
-    });
+onMounted(async () => {
+  try {
+    isModalVisible.value = true;
+    const res = await axios.get('/AllBusRoutes.json');
+    savedData.value = res.data;
+    hasLoaded.value = true;
+  } catch (err) {
+    console.error('노선 데이터 로드 실패:', err);
+  } finally {
+    isModalVisible.value = false;
   }
-}
+});
 </script>
 
+
 <style>
-html , body {
+html, body {
   height: 100%;
   width: 100%;
 }
 
 body {
-    padding-top: 55px;
+  padding-top: 55px;
 }
 
 #app {
@@ -71,8 +91,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  
-  height:100%;
+
+  height: 100%;
   width: 100%;
 }
 

@@ -1,32 +1,28 @@
 <template>
-    <b-navbar-nav>
-        <b-nav-text>{{ routeDesc }}</b-nav-text>
-        <b-button size="sm" variant="dark" @click="queryBusInfo">路線資訊</b-button>
-    </b-navbar-nav>
+  <b-navbar-nav>
+    <b-nav-text>{{ routeDesc }}</b-nav-text>
+    <b-button size="sm" variant="dark" @click="queryBusInfo">노선 정보</b-button>
+  </b-navbar-nav>
 </template>
 
-<script>
-export default {
-  name: 'RouteInfo',
-  components: {},
-  props:{
-      routeDesc:{
-          type: String,
-          default:''
-      },
-      routeID:{
-          type: Number,
-          default: 0
-      }
+<script setup>
+import { defineProps } from 'vue';
+
+const props = defineProps({
+  routeDesc: {
+    type: String,
+    default: ''
   },
-  methods:{
-      queryBusInfo : function (e) {
-          window.open("http://www.2384.com.tw/ebus/pathInfo.jsp?pathId=" + this.routeID , this.routeID)
-      }
+  routeID: {
+    type: Number,
+    default: 0
   }
+});
+
+function queryBusInfo() {
+  window.open(`http://www.2384.com.tw/ebus/pathInfo.jsp?pathId=${props.routeID}`, props.routeID.toString());
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 </style>

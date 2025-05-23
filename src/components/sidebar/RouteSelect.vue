@@ -1,88 +1,78 @@
 <template>
-    <b-nav-form>
-        <b-form-select v-model="categoryselected" :options="categoryoptions"></b-form-select>
-        <b-form-select v-model="routeselected" :options="routeoptions" @change="changeroute"></b-form-select>
-    </b-nav-form>
+  <b-nav-form>
+    <b-form-select v-model="categoryselected" :options="categoryoptions" />
+    <b-form-select v-model="routeselected" :options="routeoptions" @change="changeroute" />
+  </b-nav-form>
 </template>
 
-<script>
-export default {
-  name: 'RouteSelect',
-  props:{
-    datas:{
-        type: Array,
-        default:() => []
-    }
-  },
-  computed: {
-    categoryoptions :function(){
-      let options = [];
+<script setup>
+import { ref, computed, watch, onMounted, defineEmits, defineProps } from 'vue';
 
-      for (let index = 0; index < this.datas.length; index++) {
-        let element = this.datas[index];
-    
-        let option = { value: element.categoryIndex , text:element.categoryName };
-        options.push(option);
-      }
-      return options;
-    },
-    routeoptions : function(){
-      return this.getRouteSelectOptions(this.datas , this.categoryselected);
-    }
-  },
-  data: () => ({
-    categoryselected: 1,
-    routeselected: 10450
-  }),
-  watch: {
-    categoryselected : function(){
-      this.detectRouteChange();
-    }
-  },
-  methods:{
-      changeroute : function (value) {
-          this.$emit('change-route' , this.getRouteSelectData(this.datas , this.categoryselected , value));
-      },
-      getRouteSelectData : function(d , selC , selR){
-        let category = d.find(element => element.categoryIndex === selC);
-        let route = category.routes.find(ele => ele.RouteCode === selR);
+const props = defineProps({
+  datas: {
+    type: Array,
+    default: () => []
+  }
+});
 
-        let routeData = { 
-          categoryIndex:category.categoryIndex,
-          routeid:route.RouteCode ,
-          osmid:route.RouteOSMRelation ,
-          routedesc:route.RouteDescription ,
-          mainColor:category.categoryLineColor,
-          extendColor:category.categoryLineColor2,
-          oneWay:route.OneWay
-        };
+const emit = defineEmits(['change-route']);
 
-        return routeData;
-      },
-      getRouteSelectOptions:function(d , sel) {
-        let category = d.find(element => element.categoryIndex === sel);
-        let options = [];
+const categoryselected = ref(1);
+const routeselected = ref(10450);
 
-        for (let index = 0; index < category.routes.length; index++) {
-          let element = category.routes[index];
+const categoryoptions = computed(() => {
+  return props.datas.map(element => ({
+    value: element.categoryIndex,
+    text: element.categoryName
+  }));
+});
 
-          let option = { value: element.RouteCode , text:element.RouteName};
-          options.push(option);
-        }
+const routeoptions = computed(() => {
+  return getRouteSelectOptions(props.datas, categoryselected.value);
+});
 
-        return options;
-      },
-      detectRouteChange:function(){
-        this.routeselected = this.getRouteSelectOptions(this.datas ,this.categoryselected)[0].value;
-        this.changeroute(this.routeselected);
-      }
-  },
-  mounted: function () {
-    this.detectRouteChange();
+watch(categoryselected, () => {
+  detectRouteChange();
+});
+
+function changeroute(value) {
+  emit('change-route', getRouteSelectData(props.datas, categoryselected.value, value));
+}
+
+function detectRouteChange() {
+  const firstRoute = getRouteSelectOptions(props.datas, categoryselected.value)[0]?.value;
+  if (firstRoute !== undefined) {
+    routeselected.value = firstRoute;
+    changeroute(firstRoute);
   }
 }
+
+function getRouteSelectData(d, selC, selR) {
+  const category = d.find(el => el.categoryIndex === selC);
+  const route = category.routes.find(el => el.RouteCode === selR);
+  return {
+    categoryIndex: category.categoryIndex,
+    routeid: route.RouteCode,
+    osmid: route.RouteOSMRelation,
+    routedesc: route.RouteDescription,
+    mainColor: category.categoryLineColor,
+    extendColor: category.categoryLineColor2,
+    oneWay: route.OneWay
+  };
+}
+
+function getRouteSelectOptions(d, sel) {
+  const category = d.find(el => el.categoryIndex === sel);
+  return category?.routes.map(route => ({
+    value: route.RouteCode,
+    text: route.RouteName
+  })) || [];
+}
+
+onMounted(() => {
+  detectRouteChange();
+});
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 </style>

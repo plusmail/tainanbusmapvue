@@ -1,57 +1,44 @@
 <template>
-    <b-nav-form>
-        <b-form-radio-group
+  <b-nav-form>
+    <b-form-radio-group
         id="btn-radios-1"
         v-model="dirselected"
         :options="getDirectionOptions"
         buttons
         button-variant="primary"
         name="radios-btn-default"
-        @change = "changedir"
-        ></b-form-radio-group>
-    </b-nav-form>
+        @change="changedir"
+    />
+  </b-nav-form>
 </template>
 
-<script>
-export default {
-  name: 'RouteDirection',
-  components: {},
-  props:{
-    isOneWay:{
-      type:Boolean,
-      default:false
-    }
-  },
-  computed:{
-    getDirectionOptions:function(){
-      let r = [];
+<script setup>
+import { ref, computed, defineProps, defineEmits } from 'vue';
 
-      if(this.isOneWay === true)
-      {
-        r.push({ text: '往', value: true });
-      }
-      else
-      {
-        r.push({ text: '往', value: true });
-        r.push({ text: '返', value: false });
-      }
-
-      return r;
-    }
-  },
-  methods:{
-    changedir : function (value) {
-        this.$emit('change-dir' , value);
-    }
-  },
-  data() {
-    return {
-      dirselected: true
-    }
+const props = defineProps({
+  isOneWay: {
+    type: Boolean,
+    default: false
   }
+});
+
+const emit = defineEmits(['change-dir']);
+
+const dirselected = ref(true);
+
+const getDirectionOptions = computed(() => {
+  return props.isOneWay
+      ? [{ text: '往', value: true }]
+      : [
+        { text: '往', value: true },
+        { text: '返', value: false }
+      ];
+});
+
+function changedir(value) {
+  emit('change-dir', value);
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 </style>

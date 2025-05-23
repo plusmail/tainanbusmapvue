@@ -1,45 +1,39 @@
 <template>
-    <div v-if="checkDataIsExist">
-        <!-- Line -->
-        <l-polyline v-for="(raod , index) in busLineData.Roads"
+  <div v-if="checkDataIsExist">
+    <!-- Line -->
+    <l-polyline
+        v-for="(road, index) in busLineData.Roads"
         :key="'Roads_' + index"
-        :lat-lngs="raod.Points"
+        :lat-lngs="road.Points"
         :color="busLineData.Color"
-        :interactive="false">
-        </l-polyline>
+        :interactive="false"
+    />
 
-        <!-- Stops -->
-        <BusStop v-for="(stop , index) in busLineData.Stops" 
-        :key="'Stops_' + index" 
-        :busStopData="stop">
-        </BusStop>
-    </div>
+    <!-- Stops -->
+    <BusStop
+        v-for="(stop, index) in busLineData.Stops"
+        :key="'Stops_' + index"
+        :busStopData="stop"
+    />
+  </div>
 </template>
 
-<script>
-import { LPolyline } from 'vue2-leaflet'
-import BusStop from './BusStop.vue'
+<script setup>
+import { computed, defineProps } from 'vue';
+import { LPolyline } from '@vue-leaflet/vue-leaflet';
+import BusStop from './BusStop.vue';
 
-export default {
-  name: 'BusLine',
-  components: {
-      LPolyline,
-      BusStop
-  },
-  props:{
-      busLineData:{
-          type: Object,
-          default:() => {}
-      }
-  },
-  computed:{
-      checkDataIsExist : function(){
-          return this.busLineData !== undefined;
-      }
+const props = defineProps({
+  busLineData: {
+    type: Object,
+    default: () => ({})
   }
-}
+});
+
+const checkDataIsExist = computed(() => {
+  return props.busLineData !== undefined;
+});
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 </style>

@@ -1,15 +1,15 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
-import BootstrapVue from 'bootstrap-vue'
+
+// Vue 3에 맞는 Bootstrap 구성 요소를 사용할 경우
+import BootstrapVue3 from 'bootstrap-vue-3'
 
 import 'bootstrap/scss/bootstrap.scss'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 import 'leaflet/dist/leaflet.css'
 
-Vue.config.productionTip = false
+const app = createApp(App)
 
-Vue.use(BootstrapVue)
+app.use(BootstrapVue3)
 
-new Vue({
-  render: h => h(App),
-}).$mount('#app')
+app.mount('#app')
