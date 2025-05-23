@@ -1,7 +1,7 @@
 TainanBusMap Vue.js
 ============
 
-[![Video Label](http://img.youtube.com/vi/'유튜브주소의id'/0.jpg)](https://youtu.be/'유튜브주소의id')
+[![Video Label]()](https://youtu.be/'유튜브주소의id')
 
 # Direct Link:
 http://kagami3421.github.io/tainanbusmapvue
