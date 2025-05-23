@@ -2,12 +2,8 @@ TainanBusMap Vue.js
 ============
 https://github.com/user-attachments/assets/699032f8-9c6a-4d73-b50e-3fc72ee2a242
 
-[![Watch the video](https://www.youtube.com/watch?v=_5xyICi6qAY))
 
-
-
-http://docs.yi.or.kr:8080/share/page/context/shared/document-details?nodeRef=workspace://SpacesStore/fae7c53e-fdb2-472a-a644-56cfa3c74a86
-
+[![Watch the video](https://www.youtube.com/watch?v=x-BT2MXQwCs)](https://www.youtube.com/watch?v=x-BT2MXQwCs)
 
 # Direct Link:
 http://kagami3421.github.io/tainanbusmapvue
