@@ -5,7 +5,7 @@
         id="sidebar"
         @change-route="routeChange"
         @change-dir="directionChange"
-        :routedata="savedData"
+        :routeData="savedData"
     />
     <LeafletMap
         id="map"
@@ -40,9 +40,9 @@ const isModalVisible = ref(false);
 const showForward = ref(true);
 const currentRouteData = ref({
   categoryIndex: 1,
-  routeid: 10450,
-  osmid: 4016613,
-  routedesc: "火車站(북)─火車站(북)",
+  routeId: 10450,
+  osmId: 4016613,
+  routeDesc: "火車站(북)─火車站(북)",
   mainColor: "#9900CC",
   extendColor: "#D699EB"
 });

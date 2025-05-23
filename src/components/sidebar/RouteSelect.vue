@@ -1,12 +1,13 @@
 <template>
   <b-nav-form>
-    <b-form-select v-model="categoryselected" :options="categoryoptions" />
-    <b-form-select v-model="routeselected" :options="routeoptions" @change="changeroute" />
+    <b-form-select v-model="categorySelected" :options="categoryOptions" />
+    <b-form-select v-model="routeSelected" :options="routeOptions" @change="changeRoute" />
   </b-nav-form>
 </template>
 
 <script setup>
 import { ref, computed, watch, onMounted, defineEmits, defineProps } from 'vue';
+import {BNavForm} from "bootstrap-vue-3";
 
 const props = defineProps({
   datas: {
@@ -17,33 +18,33 @@ const props = defineProps({
 
 const emit = defineEmits(['change-route']);
 
-const categoryselected = ref(1);
-const routeselected = ref(10450);
+const categorySelected = ref(1);
+const routeSelected = ref(10450);
 
-const categoryoptions = computed(() => {
+const categoryOptions = computed(() => {
   return props.datas.map(element => ({
     value: element.categoryIndex,
     text: element.categoryName
   }));
 });
 
-const routeoptions = computed(() => {
-  return getRouteSelectOptions(props.datas, categoryselected.value);
+const routeOptions = computed(() => {
+  return getRouteSelectOptions(props.datas, categorySelected.value);
 });
 
-watch(categoryselected, () => {
+watch(categorySelected, () => {
   detectRouteChange();
 });
 
-function changeroute(value) {
-  emit('change-route', getRouteSelectData(props.datas, categoryselected.value, value));
+function changeRoute(value) {
+  emit('change-route', getRouteSelectData(props.datas, categorySelected.value, value));
 }
 
 function detectRouteChange() {
-  const firstRoute = getRouteSelectOptions(props.datas, categoryselected.value)[0]?.value;
+  const firstRoute = getRouteSelectOptions(props.datas, categorySelected.value)[0]?.value;
   if (firstRoute !== undefined) {
-    routeselected.value = firstRoute;
-    changeroute(firstRoute);
+    routeSelected.value = firstRoute;
+    changeRoute(firstRoute);
   }
 }
 
@@ -52,9 +53,9 @@ function getRouteSelectData(d, selC, selR) {
   const route = category.routes.find(el => el.RouteCode === selR);
   return {
     categoryIndex: category.categoryIndex,
-    routeid: route.RouteCode,
-    osmid: route.RouteOSMRelation,
-    routedesc: route.RouteDescription,
+    routeId: route.RouteCode,
+    osmId: route.RouteOSMRelation,
+    routeDesc: route.RouteDescription,
     mainColor: category.categoryLineColor,
     extendColor: category.categoryLineColor2,
     oneWay: route.OneWay

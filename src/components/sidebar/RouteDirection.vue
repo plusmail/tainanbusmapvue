@@ -2,12 +2,12 @@
   <b-nav-form>
     <b-form-radio-group
         id="btn-radios-1"
-        v-model="dirselected"
+        v-model="dirSelected"
         :options="getDirectionOptions"
         buttons
         button-variant="primary"
         name="radios-btn-default"
-        @change="changedir"
+        @change="changeDir"
     />
   </b-nav-form>
 </template>
@@ -24,7 +24,7 @@ const props = defineProps({
 
 const emit = defineEmits(['change-dir']);
 
-const dirselected = ref(true);
+const dirSelected = ref(true);
 
 const getDirectionOptions = computed(() => {
   return props.isOneWay
@@ -35,7 +35,7 @@ const getDirectionOptions = computed(() => {
       ];
 });
 
-function changedir(value) {
+function changeDir(value) {
   emit('change-dir', value);
 }
 </script>

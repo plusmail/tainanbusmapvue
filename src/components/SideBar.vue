@@ -5,7 +5,7 @@
       <b-collapse id="nav-collapse" is-nav>
         <RouteInfo :routeDesc="currentDesc" :routeID="currentRouteID" />
         <b-navbar-nav class="ml-auto">
-          <RouteSelect @change-route="routeChange" :datas="routedata" />
+          <RouteSelect @change-route="routeChange" :datas="routeData" />
           <RouteDirection @change-dir="routeDirChange" :isOneWay="oneWay" />
         </b-navbar-nav>
       </b-collapse>
@@ -16,7 +16,7 @@
 <script setup>
 // ✅ defineProps 자동 인식되므로 별도 import 불필요
 defineProps({
-  routedata: {
+  routeData: {
     type: Array,
     default: () => []
   }
@@ -35,8 +35,8 @@ const currentDesc = ref("기차역(북)─기차역(북)");
 const oneWay = ref(false);
 
 function routeChange(value) {
-  currentRouteID.value = value.routeid;
-  currentDesc.value = value.routedesc;
+  currentRouteID.value = value.routeId;
+  currentDesc.value = value.routeDesc;
   oneWay.value = value.oneWay;
 
   emit('change-route', value);

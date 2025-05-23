@@ -45,7 +45,7 @@ const map = ref(null);
 watch(() => props.routeData, async () => {
   hasLoaded.value = false;
   window?.$bvModal?.show("loading");
-  const res = await handleRouteMaster(props.routeData.osmid);
+  const res = await handleRouteMaster(props.routeData.osmId);
   const data = await buildData(res);
   routeGraphData.value = data;
   hasLoaded.value = true;

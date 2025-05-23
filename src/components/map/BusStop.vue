@@ -3,7 +3,7 @@
     <l-icon :icon-url="iconLocation" :icon-size="iconSize" />
     <l-popup>
       <h5>{{ busStopData.Name }}</h5>
-      <br />站牌代碼：<b>{{ busStopData.ID }}</b><br />
+      <br />站牌代碼：<b>{{ busStopData.ID }}</b><br/>
       <b-button size="sm" @click="queryRealtime">經過路線/동적</b-button>
     </l-popup>
   </l-marker>
@@ -25,6 +25,10 @@ const iconSize = ref([20, 20]);
 const iconLocation = computed(() => {
   return `./Icons/busIcon${props.busStopData.CategoryIndex}.png`;
 });
+
+function selectStop() {
+  this.$emit('select-stop', this.busStopData);
+}
 
 function queryRealtime() {
   window.open(
