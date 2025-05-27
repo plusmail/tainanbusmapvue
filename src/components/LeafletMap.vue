@@ -1,24 +1,36 @@
 <template>
-  <section>
-    <l-map :zoom="zoom" :center="center" ref="map">
-      <l-tile-layer :url="url" :attribution="attribution" />
-      <BusRouteMaster
-          v-if="hasLoaded"
-          :showForward="forward"
-          :busRouteMasterData="routeGraphData"
-          @return-bound="setBounds"
-      />
-    </l-map>
-  </section>
+  <div class="layout">
+    <!-- 분리된 사이드바 컴포넌트 -->
+    <RouteSidebar :routes="routes" @select-route="selectRoute" />
+
+    <!-- 지도 영역 -->
+    <div class="map-container">
+      <l-map
+          ref="map"
+          :zoom="zoom"
+          :center="center"
+          style="height: 100%; width: 100%"
+      >
+        <l-tile-layer :url="url" :attribution="attribution"/>
+        <BusRouteMaster
+            v-if="hasLoaded"
+            :show-forward="forward"
+            :bus-route-master-data="routeGraphData"
+            @return-bound="setBounds"
+        />
+      </l-map>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { ref, watch, defineProps } from 'vue';
+import {ref, watch, defineProps} from 'vue';
 import L from 'leaflet';
-import { LMap, LTileLayer } from '@vue-leaflet/vue-leaflet';
+import {LMap, LTileLayer} from '@vue-leaflet/vue-leaflet';
 import BusRouteMaster from './map/BusRouteMaster.vue';
 import axios from 'axios';
 import * as xmlTool from './../xmlUtilities.js';
+import RouteSidebar from "@/components/RouteSidebar.vue";
 
 const downloadAPIUrl = 'https://api.openstreetmap.org/api/0.6/relation/';
 const queryFull = '/full';
@@ -59,7 +71,7 @@ function setBounds(value) {
 async function handleRouteMaster(osmID) {
   const response = await axios.get(downloadAPIUrl + osmID, {
     responseType: 'document',
-    headers: { Accept: 'text/plain, */*' }
+    headers: {Accept: 'text/plain, */*'}
   });
   return xmlTool.getSubRelation(response.data);
 }
@@ -69,7 +81,7 @@ async function handleSingleRoute(osmIDs) {
       osmIDs.map(id =>
           axios.get(downloadAPIUrl + id + queryFull, {
             responseType: 'document',
-            headers: { Accept: 'text/plain, */*' }
+            headers: {Accept: 'text/plain, */*'}
           })
       )
   );
@@ -77,9 +89,9 @@ async function handleSingleRoute(osmIDs) {
 }
 
 async function buildData(routeMaster) {
-  const forward = { mainLine: undefined, extendLine: undefined };
-  const backward = { mainLine: undefined, extendLine: undefined };
-  const result = { forwardRoute: forward, backwardRoute: backward };
+  const forward = {mainLine: undefined, extendLine: undefined};
+  const backward = {mainLine: undefined, extendLine: undefined};
+  const result = {forwardRoute: forward, backwardRoute: backward};
 
   if (routeMaster.forwardRoute.mainLine.length)
     result.forwardRoute.mainLine = constructSingleRouteData(await handleSingleRoute(routeMaster.forwardRoute.mainLine), true);
@@ -113,7 +125,7 @@ function constructSingleRouteData(proxyDatas, isMainRoute) {
           Position: feature.latLng
         });
       } else {
-        result.Roads.push({ Points: feature.nodes.map(n => n.latLng) });
+        result.Roads.push({Points: feature.nodes.map(n => n.latLng)});
       }
     }
   }
@@ -130,4 +142,52 @@ function getBusStopCode(tags) {
 </script>
 
 <style scoped>
+.layout {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+.sidebar {
+  width: 300px;
+  height: 100vh;
+  background-color: #ffffff;
+  padding: 1rem;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+.sidebar input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.route-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.route-list li {
+  padding: 0.5rem;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+}
+
+.route-list li:hover {
+  background-color: #f0f0f0;
+}
+
+.map-container {
+  flex: 1;
+  height: 100vh;
+}
+
 </style>

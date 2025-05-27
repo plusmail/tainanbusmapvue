@@ -1,5 +1,8 @@
 <template>
-  <BusRoute :busRouteData="switchLineDirection" @get-bound="rebounds" />
+  <BusRoute
+    :bus-route-data="switchLineDirection"
+    @get-bound="rebounds"
+  />
 </template>
 
 <script setup>

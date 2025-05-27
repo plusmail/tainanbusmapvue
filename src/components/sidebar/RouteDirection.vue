@@ -1,13 +1,13 @@
 <template>
   <b-nav-form>
     <b-form-radio-group
-        id="btn-radios-1"
-        v-model="dirSelected"
-        :options="getDirectionOptions"
-        buttons
-        button-variant="primary"
-        name="radios-btn-default"
-        @change="changeDir"
+      id="btn-radios-1"
+      v-model="dirSelected"
+      :options="getDirectionOptions"
+      buttons
+      button-variant="primary"
+      name="radios-btn-default"
+      @change="changeDir"
     />
   </b-nav-form>
 </template>

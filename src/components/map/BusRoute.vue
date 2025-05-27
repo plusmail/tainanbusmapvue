@@ -1,10 +1,13 @@
 <template>
   <l-feature-group ref="features">
     <!-- Main Line -->
-    <BusLine :busLineData="busRouteData.mainLine" />
+    <BusLine :bus-line-data="busRouteData.mainLine" />
 
     <!-- Extend Line -->
-    <BusLine v-if="checkExtend" :busLineData="busRouteData.extendLine" />
+    <BusLine
+      v-if="checkExtend"
+      :bus-line-data="busRouteData.extendLine"
+    />
   </l-feature-group>
 </template>
 

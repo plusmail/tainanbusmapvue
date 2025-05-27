@@ -1,10 +1,18 @@
 <template>
   <l-marker :lat-lng="busStopData.Position">
-    <l-icon :icon-url="iconLocation" :icon-size="iconSize" />
+    <l-icon
+      :icon-url="iconLocation"
+      :icon-size="iconSize"
+    />
     <l-popup>
       <h5>{{ busStopData.Name }}</h5>
-      <br />站牌代碼：<b>{{ busStopData.ID }}</b><br/>
-      <b-button size="sm" @click="queryRealtime">經過路線/동적</b-button>
+      <br>站牌代碼：<b>{{ busStopData.ID }}</b><br>
+      <b-button
+        size="sm"
+        @click="queryRealtime"
+      >
+        經過路線/동적
+      </b-button>
     </l-popup>
   </l-marker>
 </template>
@@ -26,9 +34,9 @@ const iconLocation = computed(() => {
   return `./Icons/busIcon${props.busStopData.CategoryIndex}.png`;
 });
 
-function selectStop() {
-  this.$emit('select-stop', this.busStopData);
-}
+// function selectStop() {
+//   this.$emit('select-stop', this.busStopData);
+// }
 
 function queryRealtime() {
   window.open(

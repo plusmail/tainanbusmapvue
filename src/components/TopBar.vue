@@ -1,12 +1,28 @@
 <template>
   <section>
-    <b-navbar fixed="top" type="dark" variant="info">
+    <b-navbar
+      fixed="top"
+      type="dark"
+      variant="info"
+    >
       <b-navbar-brand>타이난시 버스 노선 지도</b-navbar-brand>
-      <b-collapse id="nav-collapse" is-nav>
-        <RouteInfo :routeDesc="currentDesc" :routeID="currentRouteID" />
+      <b-collapse
+        id="nav-collapse"
+        is-nav
+      >
+        <RouteInfo
+          :route-desc="currentDesc"
+          :route-i-d="currentRouteID"
+        />
         <b-navbar-nav class="ml-auto">
-          <RouteSelect @change-route="routeChange" :datas="routeData" />
-          <RouteDirection @change-dir="routeDirChange" :isOneWay="oneWay" />
+          <RouteSelect
+            :datas="routeData"
+            @change-route="routeChange"
+          />
+          <RouteDirection
+            :is-one-way="oneWay"
+            @change-dir="routeDirChange"
+          />
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>

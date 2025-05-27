@@ -10,12 +10,14 @@ module.exports = {
         sourceType: "module",
         requireConfigFile: false,
         babelOptions: {
-            presets: ["@babel/preset-env"],
-        },
+            presets: ["@babel/preset-env"]
+        }
     },
     extends: [
         "eslint:recommended",
         "plugin:vue/vue3-recommended"
     ],
-    rules: {}
+    rules: {
+        // 규칙들...
+    }
 };

@@ -2,18 +2,18 @@
   <div v-if="checkDataIsExist">
     <!-- Line -->
     <l-polyline
-        v-for="(road, index) in busLineData.Roads"
-        :key="'Roads_' + index"
-        :lat-lngs="road.Points"
-        :color="busLineData.Color"
-        :interactive="false"
+      v-for="(road, index) in busLineData.Roads"
+      :key="'Roads_' + index"
+      :lat-lngs="road.Points"
+      :color="busLineData.Color"
+      :interactive="false"
     />
 
     <!-- Stops -->
     <BusStop
-        v-for="(stop, index) in busLineData.Stops"
-        :key="'Stops_' + index"
-        :busStopData="stop"
+      v-for="(stop, index) in busLineData.Stops"
+      :key="'Stops_' + index"
+      :bus-stop-data="stop"
     />
   </div>
 </template>

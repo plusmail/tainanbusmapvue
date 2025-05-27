@@ -1,35 +1,34 @@
 <template>
   <div id="app">
-    <SideBar
-        v-if="hasLoaded"
-        id="sidebar"
-        @change-route="routeChange"
-        @change-dir="directionChange"
-        :routeData="savedData"
+    <TopBar
+      v-if="hasLoaded"
+      id="sidebar"
+      :route-data="savedData"
+      @change-route="routeChange"
+      @change-dir="directionChange"
     />
     <LeafletMap
-        id="map"
-        v-if="hasLoaded"
-        :forward="showForward"
-        :routeData="currentRouteData"
+      v-if="hasLoaded"
+      id="map"
+      :forward="showForward"
+      :route-data="currentRouteData"
     />
 
     <b-modal
-        v-model="isModalVisible"
-        title="Loading..."
-        :no-close-on-backdrop="true"
-        :ok-only="true"
-        :ok-disabled="true"
-        :centered="true"
+      v-model="isModalVisible"
+      title="Loading..."
+      :no-close-on-backdrop="true"
+      :ok-only="true"
+      :ok-disabled="true"
+      :centered="true"
     />
-
   </div>
 </template>
 <script setup>
 import {ref, onMounted} from 'vue';
 import axios from 'axios';
 
-import SideBar from './components/SideBar.vue';
+import TopBar from './components/TopBar.vue';
 import LeafletMap from './components/LeafletMap.vue';
 import {BModal} from "bootstrap-vue-3";
 

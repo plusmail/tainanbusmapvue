@@ -1,7 +1,14 @@
 <template>
   <b-nav-form>
-    <b-form-select v-model="categorySelected" :options="categoryOptions" />
-    <b-form-select v-model="routeSelected" :options="routeOptions" @change="changeRoute" />
+    <b-form-select
+      v-model="categorySelected"
+      :options="categoryOptions"
+    />
+    <b-form-select
+      v-model="routeSelected"
+      :options="routeOptions"
+      @change="changeRoute"
+    />
   </b-nav-form>
 </template>
 
