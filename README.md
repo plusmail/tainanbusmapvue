@@ -1,7 +1,6 @@
 TainanBusMap Vue.js
 ============
-
-View Bus Routes of Tainan City using Vue.js
+[![Video Label](https://github.com/user-attachments/assets/c0e29a7f-45e3-4150-aeb4-1e1544b2d59a)](https://youtu.be/E_l5MAH54hQ)
 
 # Direct Link:
 http://kagami3421.github.io/tainanbusmapvue
